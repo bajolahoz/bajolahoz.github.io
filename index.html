@@ -2,18 +2,90 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Bajolahoz - Cupones y Ofertas</title>
-    <!-- Estilos CSS (omitidos por brevedad, usa la estructura basada en) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bajolahoz - Cupones, Ofertas y Errores de Precio</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f4f6f9; color: #2d3436; padding-bottom: 50px; }
+        header { background: #2f3542; color: white; text-align: center; padding: 30px 15px; }
+        header h1 { font-size: 32px; font-weight: 800; color: #ff4757; }
+        header p { font-size: 14px; margin-top: 5px; color: #a4b0be; }
+        nav { background: white; position: sticky; top: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); z-index: 100; text-align: center; padding: 10px 0; }
+        nav a { display: inline-block; text-decoration: none; padding: 8px 16px; margin: 0 5px; font-weight: bold; border-radius: 20px; font-size: 14px; color: #2f3542; }
+        nav a.btn-err { background: #ff4757; color: white; }
+        nav a.btn-ofe { background: #ffa502; color: white; }
+        nav a.btn-cup { background: #2ed573; color: white; }
+        .container { max-width: 600px; margin: 25px auto; padding: 0 15px; }
+        .seccion-titulo { font-size: 20px; margin: 35px 0 15px 0; padding-left: 10px; font-weight: bold; }
+        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid #e4e7eb; }
+        .title { font-size: 18px; font-weight: bold; }
+        .btn-go { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 8px; color: white; margin-top: 15px; }
+        .bg-err { background: #ff4757; } .bg-ofe { background: #ffa502; } .bg-cup { background: #2ed573; }
+        .comments-section { border-top: 1px dashed #dfe4ea; margin-top: 20px; padding-top: 15px; }
+    </style>
 </head>
 <body>
-    <!-- Estructura HTML con secciones para errores, ofertas y cupones -->
-    <!-- Incluye divs: HCB_comment_box_errores, HCB_comment_box_ofertas, HCB_comment_box_cupones -->
-    
-    <script type="text/javascript">
-        // Script de inicialización para separar las cajas de comentarios
-        function cargarComentarios() {
-            // ... lógica de inyección ...
-        }
-    </script>
+
+    <header>
+        <h1>BAJOLAHOZ</h1>
+        <p>Ahorra dinero con los mejores chollos de internet</p>
+    </header>
+
+    <nav>
+        <a href="#errores" class="btn-err">🚨 Errores</a>
+        <a href="#ofertas" class="btn-ofe">🔥 Ofertas</a>
+        <a href="#cupones" class="btn-cup">✂️ Cupones</a>
+    </nav>
+
+    <div class="container">
+        <!-- SECCIÓN ERRORES -->
+        <div id="errores" class="seccion-titulo" style="color:#ff4757;">🚨 ERRORES DE PRECIO</div>
+        <div class="card">
+            <div class="title">Smart TV de 55" Pulgadas 4K</div>
+            <p style="margin: 10px 0;">¡Error detectado a solo 45€! Compra rápido antes de que lo corrijan.</p>
+            <a href="https://amazon.es" target="_blank" class="btn-go bg-err">¡COMPRAR ERROR YA!</a>
+        </div>
+
+        <!-- SECCIÓN OFERTAS -->
+        <div id="ofertas" class="seccion-titulo" style="color:#ffa502;">🔥 OFERTAS DESTACADAS</div>
+        <div class="card">
+            <div class="title">Zapatillas Deportivas Running</div>
+            <p style="margin: 10px 0;">Precio mínimo histórico con 60% de descuento directo en la tienda.</p>
+            <a href="https://amazon.es" target="_blank" class="btn-go bg-ofe">Ver Oferta en Amazon</a>
+        </div>
+
+        <!-- SECCIÓN CUPONES -->
+        <div id="cupones" class="seccion-titulo" style="color:#2ed573;">✂️ CUPONES DE DESCUENTO</div>
+        <div class="card">
+            <div class="title">Cupón Global AliExpress</div>
+            <p style="margin: 10px 0;">Código: <b>HOZ10</b> (Te descuentan 10€ en tu compra automáticamente).</p>
+            <a href="https://aliexpress.com" target="_blank" class="btn-go bg-cup">Ir a AliExpress</a>
+        </div>
+
+        <!-- FORO DE COMENTARIOS DE LA COMUNIDAD -->
+        <div class="card">
+            <div class="title">🗣️ Foro de la Comunidad Bajolahoz</div>
+            <p style="font-size:13px; color:#666; margin-bottom:15px;">¿Encontraste otro chollo? ¿Siguen activos los precios? ¡Comenta aquí abajo!</p>
+            <div class="comments-section">
+                <!-- Conector oficial de Giscus -->
+                <script src="https://giscus.app"
+                    data-repo="bajolahoz/bajolahoz.github.io"
+                    data-repo-id="R_kgDOm6u6eA"
+                    data-category="Announcements"
+                    data-category-id="DIC_kwDOm6u6eM4CisZ9"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="light"
+                    data-lang="es"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

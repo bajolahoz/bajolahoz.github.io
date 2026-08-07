@@ -22,8 +22,18 @@
         .title { font-size: 18px; font-weight: bold; }
         .btn-go { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 8px; color: white; margin-top: 15px; }
         .bg-err { background: #ff4757; } .bg-ofe { background: #ffa502; } .bg-cup { background: #2ed573; }
+        
+        /* Estilos del Sistema de Comentarios Nativo */
         .comments-section { border-top: 1px dashed #dfe4ea; margin-top: 25px; padding-top: 15px; }
-        iframe { width: 100%; border: none; min-height: 380px; }
+        .comments-title { font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555; }
+        .comment-list { margin-bottom: 15px; max-height: 200px; overflow-y: auto; }
+        .single-comment { background: #f8f9fa; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; border-left: 3px solid #2f3542; }
+        .single-comment span { font-weight: bold; color: #2f3542; }
+        .comment-form { display: flex; flex-direction: column; gap: 8px; }
+        .comment-form input, .comment-form textarea { width: 100%; padding: 8px; border: 1px solid #cccccc; border-radius: 6px; font-size: 13px; }
+        .comment-form textarea { resize: vertical; height: 60px; }
+        .btn-comment { background: #2f3542; color: white; border: none; padding: 8px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .btn-comment:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -48,10 +58,16 @@
             <p style="margin: 10px 0;">¡Error detectado a solo 45€! Compra rápido antes de que lo corrijan.</p>
             <a href="https://amazon.es" target="_blank" class="btn-go bg-err">¡COMPRAR ERROR YA!</a>
             
-            <!-- Comentarios exclusivos de la sección Errores -->
             <div class="comments-section">
-                <p style="font-size:13px; font-weight:bold; margin-bottom:10px; color:#555;">💬 Debate sobre Errores de Precio:</p>
-                <iframe src="https://giscus.app" loading="lazy"></iframe>
+                <p class="comments-title">💬 Comentarios de esta oferta:</p>
+                <div id="lista-errores" class="comment-list">
+                    <div class="single-comment"><span>Moderador:</span> ¡Bienvenidos! Dejen sus dudas sobre este error aquí.</div>
+                </div>
+                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-errores', 'txt-err', 'name-err')">
+                    <input type="text" id="name-err" placeholder="Tu Nombre (Opcional)" required>
+                    <textarea id="txt-err" placeholder="Escribe tu comentario aquí..." required></textarea>
+                    <button type="submit" class="btn-comment">Publicar Comentario</button>
+                </form>
             </div>
         </div>
 
@@ -62,10 +78,16 @@
             <p style="margin: 10px 0;">Precio mínimo histórico con 60% de descuento directo en la tienda.</p>
             <a href="https://amazon.es" target="_blank" class="btn-go bg-ofe">Ver Oferta en Amazon</a>
             
-            <!-- Comentarios exclusivos de la sección Ofertas -->
             <div class="comments-section">
-                <p style="font-size:13px; font-weight:bold; margin-bottom:10px; color:#555;">💬 Debate sobre Ofertas Destacadas:</p>
-                <iframe src="https://giscus.app" loading="lazy"></iframe>
+                <p class="comments-title">💬 Comentarios de esta oferta:</p>
+                <div id="lista-ofertas" class="comment-list">
+                    <div class="single-comment"><span>Moderador:</span> ¿Alguien ya las compró? ¿Qué tal la talla?</div>
+                </div>
+                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-ofertas', 'txt-ofe', 'name-ofe')">
+                    <input type="text" id="name-ofe" placeholder="Tu Nombre (Opcional)" required>
+                    <textarea id="txt-ofe" placeholder="Escribe tu comentario aquí..." required></textarea>
+                    <button type="submit" class="btn-comment">Publicar Comentario</button>
+                </form>
             </div>
         </div>
 
@@ -76,14 +98,44 @@
             <p style="margin: 10px 0;">Código: <b>HOZ10</b> (Te descuentan 10€ en tu compra automáticamente).</p>
             <a href="https://aliexpress.com" target="_blank" class="btn-go bg-cup">Ir a AliExpress</a>
             
-            <!-- Comentarios exclusivos de la sección Cupones -->
             <div class="comments-section">
-                <p style="font-size:13px; font-weight:bold; margin-bottom:10px; color:#555;">💬 Debate sobre Cupones de Descuento:</p>
-                <iframe src="https://giscus.app" loading="lazy"></iframe>
+                <p class="comments-title">💬 Comentarios de esta oferta:</p>
+                <div id="lista-cupones" class="comment-list">
+                    <div class="single-comment"><span>Moderador:</span> Recuerden aplicar el cupón antes de pagar.</div>
+                </div>
+                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-cupones', 'txt-cup', 'name-cup')">
+                    <input type="text" id="name-cup" placeholder="Tu Nombre (Opcional)" required>
+                    <textarea id="txt-cup" placeholder="Escribe tu comentario aquí..." required></textarea>
+                    <button type="submit" class="btn-comment">Publicar Comentario</button>
+                </form>
             </div>
         </div>
 
     </div>
 
+    <!-- Motor JavaScript nativo para manejar comentarios separados -->
+    <script>
+        function agregarComentario(event, idLista, idTextarea, idNombre) {
+            event.preventDefault();
+            var nombreInput = document.getElementById(idNombre).value.trim();
+            var comentarioInput = document.getElementById(idTextarea).value.trim();
+            var nombre = nombreInput === "" ? "Anónimo" : nombreInput;
+            
+            if (comentarioInput !== "") {
+                var lista = document.getElementById(idLista);
+                var nuevoComentario = document.createElement("div");
+                nuevoComentario.className = "single-comment";
+                nuevoComentario.innerHTML = "<span>" + nombre + ":</span> " + comentarioInput;
+                lista.appendChild(nuevoComentario);
+                
+                // Limpiar los campos del formulario
+                document.getElementById(idTextarea).value = "";
+                document.getElementById(idNombre).value = "";
+                
+                // Auto scroll al último comentario
+                lista.scrollTop = lista.scrollHeight;
+            }
+        }
+    </script>
 </body>
 </html>

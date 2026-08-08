@@ -5,138 +5,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bajolahoz - Cupones, Ofertas y Errores de Precio</title>
+    <!-- Iconos profesionales y modernos -->
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        /* Diseño visual profesional y limpio optimizado para celulares y PC */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f4f6f9; color: #2d3436; padding-bottom: 50px; }
-        header { background: #2f3542; color: white; text-align: center; padding: 30px 15px; }
-        header h1 { font-size: 32px; font-weight: 800; color: #ff4757; }
-        header p { font-size: 14px; margin-top: 5px; color: #a4b0be; }
-        nav { background: white; position: sticky; top: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); z-index: 100; text-align: center; padding: 10px 0; }
-        nav a { display: inline-block; text-decoration: none; padding: 8px 16px; margin: 0 5px; font-weight: bold; border-radius: 20px; font-size: 14px; color: #2f3542; }
-        nav a.btn-err { background: #ff4757; color: white; }
-        nav a.btn-ofe { background: #ffa502; color: white; }
-        nav a.btn-cup { background: #2ed573; color: white; }
-        .container { max-width: 600px; margin: 25px auto; padding: 0 15px; }
-        .seccion-titulo { font-size: 20px; margin: 35px 0 15px 0; padding-left: 10px; font-weight: bold; }
-        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid #e4e7eb; }
-        .title { font-size: 18px; font-weight: bold; }
-        .btn-go { display: block; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 8px; color: white; margin-top: 15px; }
-        .bg-err { background: #ff4757; } .bg-ofe { background: #ffa502; } .bg-cup { background: #2ed573; }
+        :root {
+            --color-bg: #f0f3f8;
+            --color-dark: #1e2229;
+            --color-err: #ff4757;
+            --color-ofe: #ffa502;
+            --color-cup: #2ed573;
+            --color-shadow: rgba(0, 0, 0, 0.08);
+            --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--color-bg); color: #2d3436; padding-bottom: 60px; overflow-x: hidden; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        header { 
+            background: linear-gradient(135deg, #2f3542, #1e2229); 
+            color: white; 
+            text-align: center; 
+            padding: 40px 15px;
+            box-shadow: 0 4px 15px var(--color-shadow);
+        }
+        header h1 { 
+            font-size: 38px; 
+            font-weight: 900; 
+            color: var(--color-err); 
+            letter-spacing: 2px;
+            animation: float 4s ease-in-out infinite;
+        }
+        header p { font-size: 15px; margin-top: 8px; color: #a4b0be; }
+
+        nav { 
+            background: rgba(255, 255, 255, 0.95); 
+            position: sticky; 
+            top: 0; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            z-index: 100; 
+            text-align: center; 
+            padding: 12px 0;
+            backdrop-filter: blur(8px);
+        }
+        nav a { 
+            display: inline-block; 
+            text-decoration: none; 
+            padding: 10px 20px; 
+            margin: 0 6px; 
+            font-weight: bold; 
+            border-radius: 25px; 
+            font-size: 14px; 
+            color: var(--color-dark);
+            transition: var(--transition-smooth);
+        }
+        nav a:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        nav a.btn-err { background: var(--color-err); color: white; }
+        nav a.btn-ofe { background: var(--color-ofe); color: white; }
+        nav a.btn-cup { background: var(--color-cup); color: white; }
+
+        .container { max-width: 600px; margin: 30px auto; padding: 0 15px; }
         
-        /* Estilos del Sistema de Comentarios Nativo */
-        .comments-section { border-top: 1px dashed #dfe4ea; margin-top: 25px; padding-top: 15px; }
-        .comments-title { font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #555; }
-        .comment-list { margin-bottom: 15px; max-height: 200px; overflow-y: auto; }
-        .single-comment { background: #f8f9fa; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; border-left: 3px solid #2f3542; }
-        .single-comment span { font-weight: bold; color: #2f3542; }
-        .comment-form { display: flex; flex-direction: column; gap: 8px; }
-        .comment-form input, .comment-form textarea { width: 100%; padding: 8px; border: 1px solid #cccccc; border-radius: 6px; font-size: 13px; }
-        .comment-form textarea { resize: vertical; height: 60px; }
-        .btn-comment { background: #2f3542; color: white; border: none; padding: 8px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 13px; }
-        .btn-comment:hover { opacity: 0.9; }
+        .seccion-titulo { 
+            font-size: 22px; 
+            margin: 40px 0 20px 0; 
+            padding-left: 10px; 
+            font-weight: 800; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 24px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.02); 
+            border: 1px solid #e9ecef; 
+            transition: var(--transition-smooth);
+            position: relative;
+            animation: pop 0.4s ease;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+
+        .votos-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 30px;
+            width: fit-content;
+        }
+        .btn-voto {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #747d8c;
+            transition: var(--transition-smooth);
+        }
+        .btn-voto:hover { transform: scale(1.15); }
+        .btn-voto.voto-fuego:hover { color: var(--color-ofe); }
+        .btn-voto.voto-frio:hover { color: #54a0ff; }
+
+        .title { font-size: 20px; font-weight: 800; color: var(--color-dark); }
+        
+        .btn-go { 
+            display: block; 
+            text-align: center; 
+            padding: 14px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            border-radius: 10px; 
+            color: white; 
+            margin-top: 18px; 
+            font-size: 16px;
+            transition: var(--transition-smooth);
+        }
+        .btn-go:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        .bg-err { background: var(--color-err); animation: pulse-glow 2.5s infinite; } 
+        .bg-ofe { background: var(--color-ofe); } 
+        .bg-cup { background: var(--color-cup); }
+
+        .coupon-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f2f6;
+            border: 2px dashed #ced6e0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 15px 0;
+            position: relative;
+        }
+        .coupon-code { font-family: 'Courier New', monospace; font-weight: bold; font-size: 18px; }
+        .btn-copy {
+            background: var(--color-dark); color: white; border: none; padding: 6px 12px;
+            border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer;
+        }
+        .copied-toast {
+            position: absolute; background: rgba(0,0,0,0.8); color: white;
+            padding: 4px 8px; font-size: 11px; border-radius: 4px; top: -25px; right: 15px; display: none;
+        }
+        
+        .comments-section { border-top: 1px dashed #dfe4ea; margin-top: 25px; padding-top: 25px; }
+        .comments-title { font-size: 14px; font-weight: bold; margin-bottom: 15px; color: #57606f; }
+        .comment-list { margin-bottom: 15px; max-height: 200px; overflow-y: auto; scroll-behavior: smooth; }
+        .comment-list::-webkit-scrollbar { width: 5px; }
+        .comment-list::-webkit-scrollbar-thumb { background: #ced6e0; border-radius: 10px; }
+        .single-comment { background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 13.5px; border-left: 4px solid var(--color-dark); }
+        .single-comment span { font-weight: bold; }
+        .comment-time { font-size: 11px; color: #a4b0be; float: right; }
+        
+        .comment-form { display: flex; flex-direction: column; gap: 10px; }
+        .comment-form input, .comment-form textarea { width: 100%; padding: 10px; border: 1px solid #ced6e0; border-radius: 8px; font-size: 13px; }
+        .btn-comment { background: var(--color-dark); color: white; border: none; padding: 10px; font-weight: bold; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>BAJOLAHOZ</h1>
-        <p>Ahorra dinero con los mejores chollos de internet</p>
+        <h1><i class="fa-solid fa-bolt"></i> BAJOLAHOZ</h1>
+        <p>Los mejores chollos actualizados al instante</p>
     </header>
 
     <nav>
-        <a href="#errores" class="btn-err">🚨 Errores</a>
-        <a href="#ofertas" class="btn-ofe">🔥 Ofertas</a>
-        <a href="#cupones" class="btn-cup">✂️ Cupones</a>
+        <a href="#container-errores" class="btn-err"><i class="fa-solid fa-triangle-exclamation"></i> Errores</a>
+        <a href="#container-ofertas" class="btn-ofe"><i class="fa-solid fa-fire"></i> Ofertas</a>
+        <a href="#container-cupones" class="btn-cup"><i class="fa-solid fa-scissors"></i> Cupones</a>
     </nav>
 
     <div class="container">
+        <div id="container-errores">
+            <div class="seccion-titulo" style="color:var(--color-err);"><i class="fa-solid fa-triangle-exclamation"></i> ERRORES DE PRECIO</div>
+        </div>
         
-        <!-- SECCIÓN 1: ERRORES -->
-        <div id="errores" class="seccion-titulo" style="color:#ff4757;">🚨 ERRORES DE PRECIO</div>
-        <div class="card">
-            <div class="title">Smart TV de 55" Pulgadas 4K</div>
-            <p style="margin: 10px 0;">¡Error detectado a solo 45€! Compra rápido antes de que lo corrijan.</p>
-            <a href="https://amazon.es" target="_blank" class="btn-go bg-err">¡COMPRAR ERROR YA!</a>
-            
-            <div class="comments-section">
-                <p class="comments-title">💬 Comentarios de esta oferta:</p>
-                <div id="lista-errores" class="comment-list">
-                    <div class="single-comment"><span>Moderador:</span> ¡Bienvenidos! Dejen sus dudas sobre este error aquí.</div>
-                </div>
-                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-errores', 'txt-err', 'name-err')">
-                    <input type="text" id="name-err" placeholder="Tu Nombre (Opcional)" required>
-                    <textarea id="txt-err" placeholder="Escribe tu comentario aquí..." required></textarea>
-                    <button type="submit" class="btn-comment">Publicar Comentario</button>
-                </form>
-            </div>
+        <div id="container-ofertas">
+            <div class="seccion-titulo" style="color:var(--color-ofe);"><i class="fa-solid fa-fire"></i> OFERTAS DESTACADAS</div>
         </div>
-
-        <!-- SECCIÓN 2: OFERTAS -->
-        <div id="ofertas" class="seccion-titulo" style="color:#ffa502;">🔥 OFERTAS DESTACADAS</div>
-        <div class="card">
-            <div class="title">Zapatillas Deportivas Running</div>
-            <p style="margin: 10px 0;">Precio mínimo histórico con 60% de descuento directo en la tienda.</p>
-            <a href="https://amazon.es" target="_blank" class="btn-go bg-ofe">Ver Oferta en Amazon</a>
-            
-            <div class="comments-section">
-                <p class="comments-title">💬 Comentarios de esta oferta:</p>
-                <div id="lista-ofertas" class="comment-list">
-                    <div class="single-comment"><span>Moderador:</span> ¿Alguien ya las compró? ¿Qué tal la talla?</div>
-                </div>
-                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-ofertas', 'txt-ofe', 'name-ofe')">
-                    <input type="text" id="name-ofe" placeholder="Tu Nombre (Opcional)" required>
-                    <textarea id="txt-ofe" placeholder="Escribe tu comentario aquí..." required></textarea>
-                    <button type="submit" class="btn-comment">Publicar Comentario</button>
-                </form>
-            </div>
+        
+        <div id="container-cupones">
+            <div class="seccion-titulo" style="color:var(--color-cup);"><i class="fa-solid fa-scissors"></i> CUPONES DE DESCUENTO</div>
         </div>
-
-        <!-- SECCIÓN 3: CUPONES -->
-        <div id="cupones" class="seccion-titulo" style="color:#2ed573;">✂️ CUPONES DE DESCUENTO</div>
-        <div class="card">
-            <div class="title">Cupón Global AliExpress</div>
-            <p style="margin: 10px 0;">Código: <b>HOZ10</b> (Te descuentan 10€ en tu compra automáticamente).</p>
-            <a href="https://aliexpress.com" target="_blank" class="btn-go bg-cup">Ir a AliExpress</a>
-            
-            <div class="comments-section">
-                <p class="comments-title">💬 Comentarios de esta oferta:</p>
-                <div id="lista-cupones" class="comment-list">
-                    <div class="single-comment"><span>Moderador:</span> Recuerden aplicar el cupón antes de pagar.</div>
-                </div>
-                <form class="comment-form" onsubmit="agregarComentario(event, 'lista-cupones', 'txt-cup', 'name-cup')">
-                    <input type="text" id="name-cup" placeholder="Tu Nombre (Opcional)" required>
-                    <textarea id="txt-cup" placeholder="Escribe tu comentario aquí..." required></textarea>
-                    <button type="submit" class="btn-comment">Publicar Comentario</button>
-                </form>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Motor JavaScript nativo para manejar comentarios separados -->
     <script>
-        function agregarComentario(event, idLista, idTextarea, idNombre) {
-            event.preventDefault();
-            var nombreInput = document.getElementById(idNombre).value.trim();
-            var comentarioInput = document.getElementById(idTextarea).value.trim();
-            var nombre = nombreInput === "" ? "Anónimo" : nombreInput;
-            
-            if (comentarioInput !== "") {
-                var lista = document.getElementById(idLista);
-                var nuevoComentario = document.createElement("div");
-                nuevoComentario.className = "single-comment";
-                nuevoComentario.innerHTML = "<span>" + nombre + ":</span> " + comentarioInput;
-                lista.appendChild(nuevoComentario);
-                
-                // Limpiar los campos del formulario
-                document.getElementById(idTextarea).value = "";
-                document.getElementById(idNombre).value = "";
-                
-                // Auto scroll al último comentario
-                lista.scrollTop = lista.scrollHeight;
+        // =========================================================================
+        // 📥 LISTA DE OFERTAS AUTOMÁTICA
+        // =========================================================================
+        const MIS_CHOLLOS = [
+            {
+                id: "tv55",
+                tipo: "error", 
+                titulo: "Smart TV de 55 Pulgadas 4K",
+                descripcion: "¡Error detectado a solo 45€! Compra rápido antes de que arreglen el enlace.",
+                urlAfiliado: "https://amazon.es",
+                votosFuego: 42,
+                votosFrio: 1
+            },
+            {
+                id: "zapas",
+                tipo: "oferta",
+                titulo: "Zapatillas Deportivas Running",
+                descripcion: "Precio mínimo histórico con 60% de descuento directo en la tienda oficial.",
+                urlAfiliado: "https://amazon.es",
+                votosFuego: 18,
+                votosFrio: 2
+            },
+            {
+                id: "aliexpress",
+                tipo: "cupon",
+                titulo: "Cupón Global AliExpress",
+                descripcion: "Te descuentan 10€ en tu compra automáticamente usando el código de abajo.",
+                urlAfiliado: "https://aliexpress.com",
+                codigoCupon: "HOZ10", 
+                votosFuego: 29,
+                votosFrio: 0
             }
-        }
-    </script>
-</body>
-</html>
+        ];

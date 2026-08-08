@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bajolahoz - Cupones, Ofertas y Errores de Precio</title>
     <!-- Iconos profesionales y modernos -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --color-bg: #f0f3f8;
@@ -188,7 +188,7 @@
 
     <header>
         <h1><i class="fa-solid fa-bolt"></i> BAJOLAHOZ</h1>
-        <p>Los mejores chollos actualizados al instante</p>
+        <p>Las mejores ofertas investigadas para ustedes</p>
     </header>
 
     <nav>
@@ -213,7 +213,7 @@
 
     <script>
         // =========================================================================
-        // 📥 LISTA DE OFERTAS AUTOMÁTICA
+        // LISTA DE OFERTAS AUTOMÁTICA
         // =========================================================================
         const MIS_CHOLLOS = [
             {
@@ -245,3 +245,149 @@
                 votosFrio: 0
             }
         ];
+        // =========================================================================
+
+        document.addEventListener("DOMContentLoaded", function() {
+            renderizarTodo();
+            cargarVotos();
+        });
+
+        function renderizarTodo() {
+            MIS_CHOLLOS.forEach(chollo => {
+                let containerId = "";
+                let bgBtnClass = "";
+                let btnText = "";
+                let modText = "";
+
+                if (chollo.tipo === "error") {
+                    containerId = "container-errores";
+                    bgBtnClass = "bg-err";
+                    btnText = "<i class='fa-solid fa-basket-shopping'></i> ¡COMPRAR ERROR YA!";
+                    modText = "¡Bienvenidos! Dejen sus dudas sobre este error aquí.";
+                } else if (chollo.tipo === "oferta") {
+                    containerId = "container-ofertas";
+                    bgBtnClass = "bg-ofe";
+                    btnText = "<i class='fa-solid fa-arrow-up-right-from-square'></i> Ver Oferta en Amazon";
+                    modText = "¿Alguien ya las compró? ¿Qué tal la talla?";
+                } else if (chollo.tipo === "cupon") {
+                    containerId = "container-cupones";
+                    bgBtnClass = "bg-cup";
+                    btnText = "<i class='fa-solid fa-bag-shopping'></i> Ir a la Tienda";
+                    modText = "Recuerden aplicar el cupón antes de proceder al pago.";
+                }
+
+                let cuponHtml = chollo.tipo === "cupon" ? `
+                    <div class="coupon-box">
+                        <span class="coupon-code" id="code-${chollo.id}">${chollo.codigoCupon}</span>
+                        <button class="btn-copy" onclick="copiarCupon('code-${chollo.id}', this)"><i class="fa-regular fa-copy"></i> Copiar</button>
+                        <div class="copied-toast">¡Copiado!</div>
+                    </div>
+                ` : "";
+
+                let cardHtml = `
+                    <div class="card" id="card-${chollo.id}">
+                        <div class="votos-container">
+                            <button class="btn-voto" onclick="votar('${chollo.id}', 'fuego')"><i class="fa-solid fa-fire"></i> <span id="votos-${chollo.id}-fuego">${chollo.votosFuego}</span></button>
+                            <button class="btn-voto" onclick="votar('${chollo.id}', 'frio')"><i class="fa-solid fa-snowflake"></i> <span id="votos-${chollo.id}-frio">${chollo.votosFrio}</span></button>
+                        </div>
+                        <div class="title">${chollo.titulo}</div>
+                        <p style="margin: 12px 0; color:#57606f; font-size: 14px;">${chollo.descripcion}</p>
+                        ${cuponHtml}
+                        <a href="${chollo.urlAfiliado}" target="_blank" class="btn-go ${bgBtnClass}" rel="noopener noreferrer">${btnText}</a>
+                        
+                        <div class="comments-section">
+                            <p class="comments-title"><i class="fa-regular fa-comments"></i> Comunidad:</p>
+                            <div id="lista-${chollo.id}" class="comment-list">
+                                <div class="single-comment" style="border-left-color: var(--color-${chollo.tipo === 'cupon' ? 'cup' : chollo.tipo === 'oferta' ? 'ofe' : 'err'})">
+                                    <span><i class='fa-solid fa-shield-halved'></i> Moderador:</span> ${modText}
+                                </div>
+                            </div>
+                            <form class="comment-form" onsubmit="agregarComentario(event, 'lista-${chollo.id}', 'txt-${chollo.id}', 'name-${chollo.id}', '${chollo.id}')">
+                                <input type="text" id="name-${chollo.id}" placeholder="Tu Nombre (Opcional)" style="margin-bottom:8px;">
+                                <textarea id="txt-${chollo.id}" placeholder="Escribe un comentario..." required style="margin-bottom:8px;"></textarea>
+                                <button type="submit" class="btn-comment">Publicar Comentario</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.getElementById(containerId).insertAdjacentHTML('beforeend', cardHtml);
+                cargarComentariosSeccion(chollo.id);
+            });
+        }
+
+        function agregarComentario(event, idLista, idTextarea, idNombre, idChollo) {
+            event.preventDefault();
+            var nombreInput = document.getElementById(idNombre).value.trim();
+            var comentarioInput = document.getElementById(idTextarea).value.trim();
+            var nombre = nombreInput === "" ? "Anónimo" : nombreInput;
+            
+            if (comentarioInput !== "") {
+                var fechaActual = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                var comObjeto = { usuario: nombre, texto: comentarioInput, hora: fechaActual };
+
+                var guardados = JSON.parse(localStorage.getItem('comments_' + idChollo)) || [];
+                guardados.push(comObjeto);
+                localStorage.setItem('comments_' + idChollo, JSON.stringify(guardados));
+
+                renderizarComentarioUnico(idLista, comObjeto);
+                document.getElementById(idTextarea).value = "";
+                document.getElementById(idNombre).value = "";
+                
+                var lista = document.getElementById(idLista);
+                lista.scrollTop = lista.scrollHeight;
+            }
+        }
+
+        function cargarComentariosSeccion(idChollo) {
+            var guardados = JSON.parse(localStorage.getItem('comments_' + idChollo)) || [];
+            guardados.forEach(com => renderizarComentarioUnico('lista-' + idChollo, com));
+        }
+
+        function renderizarComentarioUnico(idLista, comObjeto) {
+            var lista = document.getElementById(idLista);
+            var div = document.createElement("div");
+            div.className = "single-comment";
+            div.innerHTML = "<span class='comment-time'>" + comObjeto.hora + "</span><span>" + comObjeto.usuario + ":</span> " + comObjeto.texto;
+            lista.appendChild(div);
+        }
+
+        function copiarCupon(idCodigo, botonElemento) {
+            var codigoText = document.getElementById(idCodigo).innerText;
+            navigator.clipboard.writeText(codigoText).then(function() {
+                var toast = botonElemento.parentElement.querySelector('.copied-toast');
+                toast.style.display = 'block';
+                botonElemento.innerHTML = "<i class='fa-solid fa-check'></i> ¡Hecho!";
+                setTimeout(function() {
+                    toast.style.display = 'none';
+                    botonElemento.innerHTML = "<i class='fa-regular fa-copy'></i> Copiar";
+                }, 2000);
+            });
+        }
+
+        function votar(idCard, tipoVoto) {
+            var claveUserVoto = 'voted_' + idCard;
+            if (localStorage.getItem(claveUserVoto)) {
+                alert("Ya has reaccionado a este chollo.");
+                return;
+            }
+            var spanId = "votos-" + idCard + "-" + tipoVoto;
+            var spanElement = document.getElementById(spanId);
+            var conteoActual = parseInt(spanElement.innerText);
+            spanElement.innerText = conteoActual + 1;
+            
+            localStorage.setItem(claveUserVoto, tipoVoto);
+            localStorage.setItem('count_' + spanId, conteoActual + 1);
+        }
+
+        function cargarVotos() {
+            MIS_CHOLLOS.forEach(chollo => {
+                ['fuego', 'frio'].forEach(tipo => {
+                    var id = `votos-${chollo.id}-${tipo}`;
+                    var guardado = localStorage.getItem('count_' + id);
+                    if (guardado) document.getElementById(id).innerText = guardado;
+                });
+            });
+        }
+    </script>
+</body>
+</html>

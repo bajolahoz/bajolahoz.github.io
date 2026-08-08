@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta name="verify-admitad" content="9940c3bcf3" />
     <meta charset="UTF-8">
@@ -58,6 +60,8 @@
             width: auto;
             object-fit: contain;
             animation: float 4s ease-in-out infinite;
+            /* Esta propiedad elimina los fondos negros oscuros de la imagen de forma automatica */
+            mix-blend-mode: screen; 
         }
         header p { font-size: 15px; margin-top: 8px; color: #a4b0be; }
 
@@ -195,6 +199,7 @@
 
     <header>
         <h1>
+            <!-- Detecta automaticamente el archivo logo.png de tu repositorio -->
             <img src="logo.png" alt="Logo">
             BAJOLAHOZ
         </h1>
@@ -223,14 +228,14 @@
 
     <script>
         // =========================================================================
-        // LISTA DE OFERTAS AUTOMÁTICA
+        // LISTA DE OFERTAS AUTOMÃTICA
         // =========================================================================
         const MIS_CHOLLOS = [
             {
                 id: "tv55",
                 tipo: "error", 
                 titulo: "Smart TV de 55 Pulgadas 4K",
-                descripcion: "¡Error detectado a solo 45€! Compra rápido antes de que arreglen el enlace.",
+                descripcion: "Â¡Error detectado a solo 45â‚¬! Compra rÃ¡pido antes de que arreglen el enlace.",
                 urlAfiliado: "https://amazon.es",
                 votosFuego: 42,
                 votosFrio: 1
@@ -239,7 +244,7 @@
                 id: "zapas",
                 tipo: "oferta",
                 titulo: "Zapatillas Deportivas Running",
-                descripcion: "Precio mínimo histórico con 60% de descuento directo en la tienda oficial.",
+                descripcion: "Precio mÃ­nimo histÃ³rico con 60% de descuento directo en la tienda oficial.",
                 urlAfiliado: "https://amazon.es",
                 votosFuego: 18,
                 votosFrio: 2
@@ -247,8 +252,8 @@
             {
                 id: "aliexpress",
                 tipo: "cupon",
-                titulo: "Cupón Global AliExpress",
-                descripcion: "Te descuentan 10€ en tu compra automáticamente usando el código de abajo.",
+                titulo: "CupÃ³n Global AliExpress",
+                descripcion: "Te descuentan 10â‚¬ en tu compra automÃ¡ticamente usando el cÃ³digo de abajo.",
                 urlAfiliado: "https://aliexpress.com",
                 codigoCupon: "HOZ10", 
                 votosFuego: 29,
@@ -272,25 +277,25 @@
                 if (chollo.tipo === "error") {
                     containerId = "container-errores";
                     bgBtnClass = "bg-err";
-                    btnText = "<i class='fa-solid fa-basket-shopping'></i> ¡COMPRAR ERROR YA!";
-                    modText = "¡Bienvenidos! Dejen sus dudas sobre este error aquí.";
+                    btnText = "<i class='fa-solid fa-basket-shopping'></i> Â¡COMPRAR ERROR YA!";
+                    modText = "Â¡Bienvenidos! Dejen sus dudas sobre este error aquÃ­.";
                 } else if (chollo.tipo === "oferta") {
                     containerId = "container-ofertas";
                     bgBtnClass = "bg-ofe";
                     btnText = "<i class='fa-solid fa-arrow-up-right-from-square'></i> Ver Oferta en Amazon";
-                    modText = "¿Alguien ya las compró? ¿Qué tal la talla?";
+                    modText = "Â¿Alguien ya las comprÃ³? Â¿QuÃ© tal la talla?";
                 } else if (chollo.tipo === "cupon") {
                     containerId = "container-cupones";
                     bgBtnClass = "bg-cup";
                     btnText = "<i class='fa-solid fa-bag-shopping'></i> Ir a la Tienda";
-                    modText = "Recuerden aplicar el cupón antes de proceder al pago.";
+                    modText = "Recuerden aplicar el cupÃ³n antes de proceder al pago.";
                 }
 
                 let cuponHtml = chollo.tipo === "cupon" ? `
                     <div class="coupon-box">
                         <span class="coupon-code" id="code-${chollo.id}">${chollo.codigoCupon}</span>
                         <button class="btn-copy" onclick="copiarCupon('code-${chollo.id}', this)"><i class="fa-regular fa-copy"></i> Copiar</button>
-                        <div class="copied-toast">¡Copiado!</div>
+                        <div class="copied-toast">Â¡Copiado!</div>
                     </div>
                 ` : "";
 
@@ -329,7 +334,7 @@
             event.preventDefault();
             var nombreInput = document.getElementById(idNombre).value.trim();
             var comentarioInput = document.getElementById(idTextarea).value.trim();
-            var nombre = nombreInput === "" ? "Anónimo" : nombreInput;
+            var nombre = nombreInput === "" ? "AnÃ³nimo" : nombreInput;
             
             if (comentarioInput !== "") {
                 var fechaActual = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
@@ -366,7 +371,7 @@
             navigator.clipboard.writeText(codigoText).then(function() {
                 var toast = botonElemento.parentElement.querySelector('.copied-toast');
                 toast.style.display = 'block';
-                botonElemento.innerHTML = "<i class='fa-solid fa-check'></i> ¡Hecho!";
+                botonElemento.innerHTML = "<i class='fa-solid fa-check'></i> Â¡Hecho!";
                 setTimeout(function() {
                     toast.style.display = 'none';
                     botonElemento.innerHTML = "<i class='fa-regular fa-copy'></i> Copiar";

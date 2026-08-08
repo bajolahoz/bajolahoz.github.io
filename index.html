@@ -11,9 +11,9 @@
         :root {
             --color-bg: #f0f3f8;
             --color-dark: #1e2229;
-            --color-err: #ff4757;
-            --color-ofe: #ffa502;
-            --color-cup: #2ed573;
+            --color-err: #ff3838; /* Rojo exacto de la hoz */
+            --color-ofe: #ffb300; /* Amarillo de la etiqueta de porcentaje */
+            --color-cup: #4caf50; /* Verde de la rama del logo */
             --color-shadow: rgba(0, 0, 0, 0.08);
             --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -28,9 +28,9 @@
         }
 
         @keyframes pulse-glow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 56, 56, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
 
         @keyframes pop {
@@ -50,6 +50,15 @@
             font-weight: 900; 
             color: var(--color-err); 
             letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        header h1 img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
             animation: float 4s ease-in-out infinite;
         }
         header p { font-size: 15px; margin-top: 8px; color: #a4b0be; }
@@ -77,7 +86,7 @@
         }
         nav a:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         nav a.btn-err { background: var(--color-err); color: white; }
-        nav a.btn-ofe { background: var(--color-ofe); color: white; }
+        nav a.btn-ofe { background: var(--color-ofe); color: var(--color-dark); }
         nav a.btn-cup { background: var(--color-cup); color: white; }
 
         .container { max-width: 600px; margin: 30px auto; padding: 0 15px; }
@@ -146,7 +155,7 @@
         }
         .btn-go:hover { filter: brightness(1.1); transform: translateY(-2px); }
         .bg-err { background: var(--color-err); animation: pulse-glow 2.5s infinite; } 
-        .bg-ofe { background: var(--color-ofe); } 
+        .bg-ofe { background: var(--color-ofe); color: var(--color-dark); } 
         .bg-cup { background: var(--color-cup); }
 
         .coupon-box {
@@ -187,8 +196,11 @@
 <body>
 
     <header>
-        <h1><i class="fa-solid fa-bolt"></i> BAJOLAHOZ</h1>
-        <p>Las mejores ofertas investigadas para ti</p>
+        <h1>
+            <img src="https://images.prodia.xyz/81e598fc-d13c-4859-9941-86663fef405c.png" alt="Logo Bajolahoz">
+            BAJOLAHOZ
+        </h1>
+        <p>Las mejores ofertas investigadas para ustedes</p>
     </header>
 
     <nav>
